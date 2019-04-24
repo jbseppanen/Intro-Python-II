@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -32,6 +33,15 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
+
+# Add items
+room['outside'].items.append(Item("Club", "A short chunk of an oak branch."))
+room['foyer'].items.append(Item("Shield", "Dented and well used but still serviceable."))
+room['overlook'].items.append(Item("Sword", "Sharp and in surprisingly good condition."))
+room['overlook'].items.append(Item("Matches", "Dry and useable."))
+room['narrow'].items.append(Item("Lamp", "Just waiting to be lit."))
+room['treasure'].items.append(Item("Coins", "Just a few small ones missed by those who had been there before you."))
+
 
 #
 # Main

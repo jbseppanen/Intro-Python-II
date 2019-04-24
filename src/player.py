@@ -8,13 +8,21 @@ class Player:
         self.room = room
         self.inventory = []
 
-    def pickup(self, item):
+    def pickup_item(self, item):
         if self.room.items.count(item) > 0:
             self.inventory.append(item)
             self.room.items.remove(item)
             print(f"The {item.name} has been picked up.")
         else:
             print(f"A {item.name} is not in this room.")
+
+    def drop_item(self, item):
+        if self.items.count(item) > 0:
+            self.room.items.append(item)
+            self.inventory.remove(item)
+            print(f"The {item.name} has been dropped.")
+        else:
+            print(f"You do not have a {item.name} to drop.")
 
     def change_room(self):
         print()
