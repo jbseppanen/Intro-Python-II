@@ -16,3 +16,8 @@ class Room:
         print("This room has the following items: ")
         for i in self.items:
             print(i.name)
+
+    def enter_room(self):
+        print(f"You are in the {self.name}.")
+        print(self.description)
+

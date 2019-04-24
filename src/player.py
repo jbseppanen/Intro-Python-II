@@ -15,3 +15,6 @@ class Player:
             print(f"The {item.name} has been picked up.")
         else:
             print(f"A {item.name} is not in this room.")
+
+    def change_room(self):
+        print()
