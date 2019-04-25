@@ -70,18 +70,18 @@ player = Player("George", rooms['outside'])
 #
 # If the user enters "q", quit the game.
 
-directions = ['n', 'e', 's', 'w']
-
 player.room.enter_room()
 
 while True:
+    print()
     user_input = input("What do you want to do here? ->")
+    print()
     cmds = user_input.lower().split(" ")
     if len(cmds) == 1:
         if user_input == "q":
             if input("Are you sure you want to quit? Enter y or n.") == "y":
                 break
-        if user_input in directions:
+        if user_input in ['n', 'e', 's', 'w']:
             if getattr(player.room, f"{user_input}_to", None) is not None:
                 player.room = getattr(player.room, f"{user_input}_to", None)
                 player.room.enter_room()
