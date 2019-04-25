@@ -4,7 +4,7 @@ from item import Item
 
 # Declare all the rooms
 
-room = {
+rooms = {
     'outside': Room("Outside Cave Entrance",
                     "North of you, the cave mount beckons"),
 
@@ -25,23 +25,31 @@ earlier adventurers. The only exit is to the south."""),
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+rooms['outside'].n_to = rooms['foyer']
+rooms['foyer'].s_to = rooms['outside']
+rooms['foyer'].n_to = rooms['overlook']
+rooms['foyer'].e_to = rooms['narrow']
+rooms['overlook'].s_to = rooms['foyer']
+rooms['narrow'].w_to = rooms['foyer']
+rooms['narrow'].n_to = rooms['treasure']
+rooms['treasure'].s_to = rooms['narrow']
 
-# Add items
-room['outside'].items.append(Item("Club", "A short chunk of an oak branch."))
-room['foyer'].items.append(Item("Shield", "Dented and well used but still serviceable."))
-room['overlook'].items.append(Item("Sword", "Sharp and in surprisingly good condition."))
-room['overlook'].items.append(Item("Matches", "Dry and useable."))
-room['narrow'].items.append(Item("Lamp", "Just waiting to be lit."))
-room['treasure'].items.append(Item("Coins", "Just a few small ones missed by those who had been there before you."))
+# Create items
+items = {
+    'club': Item("Club", "A short chunk of an oak branch."),
+    'shield': Item("Shield", "Dented and well used but still serviceable."),
+    'sword': Item("Sword", "Sharp and in surprisingly good condition."),
+    'matches': Item("Matches", "Dry and useable."),
+    'coins': Item("Coins", "Just a few small ones missed by those who had been there before you.")
+}
 
+# Add Items to rooms
+
+rooms['outside'].items.append(items['club'])
+rooms['foyer'].items.append(items['shield'])
+rooms['overlook'].items.append(items['sword'])
+rooms['narrow'].items.append(items['matches'])
+rooms['treasure'].items.append(items['coins'])
 
 #
 # Main
@@ -49,7 +57,7 @@ room['treasure'].items.append(Item("Coins", "Just a few small ones missed by tho
 
 # Make a new player object that is currently in the 'outside' room.
 #
-player = Player("George", room['outside'])
+player = Player("George", rooms['outside'])
 
 # Write a loop that:
 #
@@ -66,34 +74,46 @@ print(f"You are in the {player.room.name}.")
 print(player.room.description)
 
 while True:
-    user_input = input("What do you want to do here?")
-
-    if user_input == "q":
-        if input("Are you sure you want to quit? Enter y or n.") == "y":
-            break
-    if user_input == "n":
-        if player.room.n_to is not None:
-            player.room = player.room.n_to
-            player.room.enter_room()
+    user_input = input("What do you want to do here? ->")
+    cmds = user_input.split(" ")
+    if len(cmds) == 1:
+        if user_input == "q":
+            if input("Are you sure you want to quit? Enter y or n.") == "y":
+                break
+        if user_input == "n":
+            if player.room.n_to is not None:
+                player.room = player.room.n_to
+                player.room.enter_room()
+            else:
+                print("Cannot go that direction.")
+        elif user_input == "s":
+            if player.room.s_to is not None:
+                player.room = player.room.s_to
+                player.room.enter_room()
+            else:
+                print("Cannot go that direction.")
+        elif user_input == "e":
+            if player.room.e_to is not None:
+                player.room = player.room.e_to
+                player.room.enter_room()
+            else:
+                print("Cannot go that direction.")
+        elif user_input == "w":
+            if player.room.w_to is not None:
+                player.room = player.room.w_to
+                player.room.enter_room()
+            else:
+                print("Cannot go that direction.")
         else:
-            print("Cannot go that direction.")
-    elif user_input == "s":
-        if player.room.s_to is not None:
-            player.room = player.room.s_to
-            player.room.enter_room()
+            print("Unknown command.")
+    elif len(cmds) == 2:
+        if cmds[0].lower() == "get" or cmds[0] == "take":
+            player.pickup_item(items[cmds[1]])
+        elif cmds[0].lower == "drop":
+            player.drop_item(items[cmds[1]])
         else:
-            print("Cannot go that direction.")
-    elif user_input == "e":
-        if player.room.e_to is not None:
-            player.room = player.room.e_to
-            player.room.enter_room()
-        else:
-            print("Cannot go that direction.")
-    elif user_input == "w":
-        if player.room.w_to is not None:
-            player.room = player.room.w_to
-            player.room.enter_room()
-        else:
-            print("Cannot go that direction.")
+            print("Unknown command.")
+    else:
+        print("Unknown command.")
 
 print("Exiting Game...")
