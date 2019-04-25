@@ -70,6 +70,9 @@ player = Player("George", rooms['outside'])
 #
 # If the user enters "q", quit the game.
 
+
+directions = ['n', 'e', 's', 'w']
+
 player.room.enter_room()
 
 while True:
@@ -79,27 +82,9 @@ while True:
         if user_input == "q":
             if input("Are you sure you want to quit? Enter y or n.") == "y":
                 break
-        if user_input == "n":
-            if player.room.n_to is not None:
-                player.room = player.room.n_to
-                player.room.enter_room()
-            else:
-                print("Cannot go that direction.")
-        elif user_input == "s":
-            if player.room.s_to is not None:
-                player.room = player.room.s_to
-                player.room.enter_room()
-            else:
-                print("Cannot go that direction.")
-        elif user_input == "e":
-            if player.room.e_to is not None:
-                player.room = player.room.e_to
-                player.room.enter_room()
-            else:
-                print("Cannot go that direction.")
-        elif user_input == "w":
-            if player.room.w_to is not None:
-                player.room = player.room.w_to
+        if user_input in directions:
+            if getattr(player.room, f"{user_input}_to", None) is not None:
+                player.room = getattr(player.room, f"{user_input}_to", None)
                 player.room.enter_room()
             else:
                 print("Cannot go that direction.")
@@ -108,7 +93,7 @@ while True:
         else:
             print("Unknown command.")
     elif len(cmds) == 2:
-        if cmds[0] == "get" or cmds[0] == "take" or  cmds[0] == "pickup":
+        if cmds[0] == "get" or cmds[0] == "take" or cmds[0] == "pickup":
             if items[cmds[1]]:
                 player.pickup_item(items[cmds[1]])
             else:
