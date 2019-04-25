@@ -6,20 +6,29 @@ class Player:
     def __init__(self, name, room):
         self.name = name
         self.room = room
-        self.inventory = []
+        self.items = []
 
     def pickup_item(self, item):
         if self.room.items.count(item) > 0:
-            self.inventory.append(item)
+            self.items.append(item)
             self.room.items.remove(item)
-            print(f"The {item.name} has been picked up.")
+            item.on_take()
         else:
             print(f"A {item.name} is not in this room.")
 
     def drop_item(self, item):
-        if self.inventory.count(item) > 0:
+        if self.items.count(item) > 0:
             self.room.items.append(item)
-            self.inventory.remove(item)
-            print(f"The {item.name} has been dropped.")
+            self.items.remove(item)
+            item.on_drop()
         else:
             print(f"You do not have a {item.name} to drop.")
+
+    def print_items(self):
+        if not self.items:
+            print("You have no items.")
+        else:
+            print("You have the following items: ")
+            for i in self.items:
+                print(i.name)
+

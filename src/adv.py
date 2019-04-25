@@ -74,7 +74,7 @@ player.room.enter_room()
 
 while True:
     user_input = input("What do you want to do here? ->")
-    cmds = user_input.split(" ")
+    cmds = user_input.lower().split(" ")
     if len(cmds) == 1:
         if user_input == "q":
             if input("Are you sure you want to quit? Enter y or n.") == "y":
@@ -103,13 +103,21 @@ while True:
                 player.room.enter_room()
             else:
                 print("Cannot go that direction.")
+        elif user_input == "i" or user_input == "inventory":
+            player.print_items()
         else:
             print("Unknown command.")
     elif len(cmds) == 2:
-        if cmds[0].lower() == "get" or cmds[0] == "take" or cmds[0] == "pickup":
-            player.pickup_item(items[cmds[1]])
-        elif cmds[0].lower == "drop":
-            player.drop_item(items[cmds[1]])
+        if cmds[0] == "get" or cmds[0] == "take" or  cmds[0] == "pickup":
+            if items[cmds[1]]:
+                player.pickup_item(items[cmds[1]])
+            else:
+                print("Unknown item.")
+        elif cmds[0] == "drop":
+            if items[cmds[1]]:
+                player.drop_item(items[cmds[1]])
+            else:
+                print("Unknown item.")
         else:
             print("Unknown command.")
     else:
