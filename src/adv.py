@@ -6,7 +6,7 @@ from item import Item
 
 rooms = {
     'outside': Room("Outside Cave Entrance",
-                    "North of you, the cave mount beckons"),
+                    "North of you, the cave mount beckons."),
 
     'foyer': Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -70,8 +70,7 @@ player = Player("George", rooms['outside'])
 #
 # If the user enters "q", quit the game.
 
-print(f"You are in the {player.room.name}.")
-print(player.room.description)
+player.room.enter_room()
 
 while True:
     user_input = input("What do you want to do here? ->")
@@ -107,7 +106,7 @@ while True:
         else:
             print("Unknown command.")
     elif len(cmds) == 2:
-        if cmds[0].lower() == "get" or cmds[0] == "take":
+        if cmds[0].lower() == "get" or cmds[0] == "take" or cmds[0] == "pickup":
             player.pickup_item(items[cmds[1]])
         elif cmds[0].lower == "drop":
             player.drop_item(items[cmds[1]])
