@@ -70,7 +70,6 @@ player = Player("George", rooms['outside'])
 #
 # If the user enters "q", quit the game.
 
-
 directions = ['n', 'e', 's', 'w']
 
 player.room.enter_room()
@@ -88,12 +87,12 @@ while True:
                 player.room.enter_room()
             else:
                 print("Cannot go that direction.")
-        elif user_input == "i" or user_input == "inventory":
+        elif user_input in ['i', 'inventory']:
             player.print_items()
         else:
             print("Unknown command.")
     elif len(cmds) == 2:
-        if cmds[0] == "get" or cmds[0] == "take" or cmds[0] == "pickup":
+        if cmds[0] in ['get', 'take', 'pickup']:
             if items[cmds[1]]:
                 player.pickup_item(items[cmds[1]])
             else:
